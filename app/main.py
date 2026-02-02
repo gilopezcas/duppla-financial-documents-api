@@ -1,8 +1,8 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from models     import *
-from database   import *
+from models    import *
+from database  import *
 
 from pydantic   import BaseModel
 
@@ -20,14 +20,11 @@ class DocumentoActualizar(BaseModel):
     monto:  float   = None
     metadata:dict   = None
 
-
 class BatchRequest(BaseModel):
     ids: list[int]
 
 app = FastAPI()
 init_db()
-
-# db_dependency = Annotated[Session, Depends(get_db)]
 
 @app.post("/documentos/")
 def crear_documento(documento:Documento, db:Session=Depends(get_db)):
@@ -108,15 +105,15 @@ def buscar_documentos(tipo: int = None, estado: int = None, monto_min: float = N
 
 @app.patch("/documentos/{id_documento}/estado")
 def cambiar_estado(id_documento:int, aprobado:bool=None, db:Session=Depends(get_db)):
-        """Cambiar el estado del documento según la máquina de estados.
+    """Cambiar el estado del documento según la máquina de estados.
 
-        Transiciones permitidas:
-        - Si `estado==1` (borrador) -> se pasa a `2` (pendiente).
-        - Si `estado==2` (pendiente) -> requiere query param `aprobado` (bool):
-            `true` => `3` (aprobado), `false` => `4` (rechazado).
-        Cualquier otra transición devuelve 409 Conflict.
-        """
-        _documento:Documentos = db.query(Documentos).filter(Documentos.id == id_documento).first()
+    Transiciones permitidas:
+    - Si `estado==1` (borrador) -> se pasa a `2` (pendiente).
+    - Si `estado==2` (pendiente) -> requiere query param `aprobado` (bool):
+        `true` => `3` (aprobado), `false` => `4` (rechazado).
+    Cualquier otra transición devuelve 409 Conflict.
+    """
+    _documento:Documentos = db.query(Documentos).filter(Documentos.id == id_documento).first()
     if not _documento:
         raise HTTPException(status_code=404, detail=f"Documento {id_documento} no encontrado")
     
