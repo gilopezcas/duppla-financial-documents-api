@@ -1,7 +1,8 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATEBASE_URL = "postgresql://postgres:vSeJugvcj2@localhost:5432/dupla_db"
+DATEBASE_URL = os.getenv("DATEBASE_URL", "postgresql://postgres:postgres@localhost:5432/dupla_db")
 
 engine = create_engine(DATEBASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
