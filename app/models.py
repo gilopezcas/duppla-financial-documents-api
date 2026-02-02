@@ -1,3 +1,5 @@
+from uuid   import uuid4
+
 from sqlalchemy import Column, Integer, String, Float, JSON, ForeignKey
 from database   import Base
 
@@ -12,6 +14,12 @@ class EstadosDocumentos(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     nombre = Column(String)
+
+class Batch(Base):
+    __tablename__ = "batch"
+
+    id_job = Column(String, primary_key=True, index=True, default=str(uuid4()))
+    jobs = Column(JSON)
 
 class Documentos(Base):
     __tablename__ = "documentos"
