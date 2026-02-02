@@ -1,0 +1,297 @@
+{
+  "info": {
+    "_postman_id": "bfcad235-0232-4bed-822c-87f56eebeada",
+    "name": "Duppla",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "18774227"
+  },
+  "item": [
+    {
+      "name": "Crear Documento",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"tipo\": 1,\r\n    \"monto\": 2000,\r\n    \"fecha_creacion\": \"2026-02-02 01:52:16\",\r\n    \"metadata\": {\r\n        \"total\": 2000,\r\n        \"subtotal\": 1680.67,\r\n        \"iva\": 319.33\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/documentos/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "documentos",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Consultar Documento",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/documentos/{{id_documento}}",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "documentos",
+            "{{id_documento}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar Documento",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"monto\": 4000\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/documentos/{{id_documento}}",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "documentos",
+            "{{id_documento}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Buscar Documentos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/documentos?tipo=1",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "documentos"
+          ],
+          "query": [
+            {
+              "key": "tipo",
+              "value": "1",
+              "type": "text"
+            },
+            {
+              "key": "estado",
+              "value": "3",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "monto_min",
+              "value": "2000",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "monto_max",
+              "value": "4000",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "fecha_desde",
+              "value": "2026-01-01 00:00:00",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "fecha_hasta",
+              "value": "2026-02-03 00:00:00",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "limit",
+              "value": "10",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "offset",
+              "value": "0",
+              "type": "text",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Cambiar Estado de Documento",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/documentos/{{id_documento}}/estado?aprobado=false",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "documentos",
+            "{{id_documento}}",
+            "estado"
+          ],
+          "query": [
+            {
+              "key": "aprobado",
+              "value": "false"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Procesar Batch",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"ids\": [1,2,3,4,5,6]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/documentos/batch/procesar",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "documentos",
+            "batch",
+            "procesar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Consultar Estado de Batch",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/jobs/{{job_id}}",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "jobs",
+            "{{job_id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "id_documento",
+      "value": ""
+    },
+    {
+      "key": "job_id",
+      "value": ""
+    }
+  ]
+}

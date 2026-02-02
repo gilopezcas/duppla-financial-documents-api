@@ -75,7 +75,7 @@ def actualizar_documento(id_documento:int, documento:DocumentoActualizar, db:Ses
 
     return _documento
 
-@app.get("/documentos")
+@app.get("/documentos/")
 def buscar_documentos(tipo: int = None, estado: int = None, monto_min: float = None, monto_max: float = None, fecha_desde: str = None, fecha_hasta: str = None, limit: int = 100, offset: int = 0, db: Session = Depends(get_db)):
     """Buscar documentos con filtros simples y paginación.
 
