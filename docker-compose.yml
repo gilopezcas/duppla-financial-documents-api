@@ -20,6 +20,7 @@ services:
     environment:
       # Use the service name `db` as host so the container connects to the DB service
       DATEBASE_URL: "postgresql://postgres:postgres@db:5432/dupla_db"
+      LOG_LEVEL: info
     volumes:
       - ./app:/app
     command: uvicorn main:app --host 0.0.0.0 --port 8000
