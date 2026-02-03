@@ -8,7 +8,33 @@
   "item": [
     {
       "name": "Crear Documento",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();\r",
+              "\r",
+              "//set global variables from json response data for subsequent API requests\r",
+              "pm.collectionVariables.set(\"id_documento\", jsonData.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearerToken}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "POST",
         "header": [],
         "body": {
@@ -41,6 +67,16 @@
     {
       "name": "Consultar Documento",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearerToken}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [],
         "url": {
@@ -64,6 +100,16 @@
     {
       "name": "Actualizar Documento",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearerToken}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "PUT",
         "header": [],
         "body": {
@@ -96,6 +142,16 @@
     {
       "name": "Buscar Documentos",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearerToken}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [],
         "url": {
@@ -114,8 +170,7 @@
           "query": [
             {
               "key": "tipo",
-              "value": "1",
-              "type": "text"
+              "value": "1"
             },
             {
               "key": "estado",
@@ -167,6 +222,16 @@
     {
       "name": "Cambiar Estado de Documento",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearerToken}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "PATCH",
         "header": [],
         "body": {
@@ -205,7 +270,33 @@
     },
     {
       "name": "Procesar Batch",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();\r",
+              "\r",
+              "//set global variables from json response data for subsequent API requests\r",
+              "pm.collectionVariables.set(\"job_id\", jsonData.job_id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearerToken}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "POST",
         "header": [],
         "body": {
@@ -239,6 +330,16 @@
     {
       "name": "Consultar Estado de Batch",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{bearerToken}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [],
         "url": {
@@ -254,6 +355,61 @@
           "path": [
             "jobs",
             "{{job_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const jsonData = pm.response.json();\r",
+              "\r",
+              "//set global variables from json response data for subsequent API requests\r",
+              "pm.collectionVariables.set(\"bearerToken\", jsonData.access_token);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "username",
+              "value": "duppla",
+              "type": "text",
+              "uuid": "23feea25-ea95-402f-9254-68f924f9469b"
+            },
+            {
+              "key": "password",
+              "value": "secret",
+              "type": "text",
+              "uuid": "bda279db-8361-42a1-a14a-6a91aaaa05ca"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/token",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "token"
           ]
         }
       },
@@ -291,6 +447,10 @@
     },
     {
       "key": "job_id",
+      "value": ""
+    },
+    {
+      "key": "bearerToken",
       "value": ""
     }
   ]
