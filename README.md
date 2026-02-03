@@ -12,12 +12,17 @@ Arquitectura y patrones
 -----------------------
 Patrones y decisiones de diseño aplicados en esta prueba técnica:
 
-- **Controladores:** Los endpoints en `app/main.py` actúan como controladores que reciben y validan requests (usando `pydantic`), gestionan la sesión y retornan respuestas.
-- **ORM directo:** Se usa SQLAlchemy con modelos en `app/models.py` y el código accede al `Session` directamente desde los controladores. No se implementó una capa `Repository` explícita para mantener el proyecto pequeño y directo.
-- **Unidad de Trabajo:** Las transacciones se gestionan mediante `Session` de SQLAlchemy; cada operación crea/usa la sesión (dependencia `get_db`) y realiza commit/rollback apropiados.
-- **Worker background:** El procesamiento de batches se implementó con `threading.Thread`.
-- **Validación:** `pydantic` se usa para definir los esquemas de entrada (`Documento`, `BatchRequest`) y validar payloads.
-- **Inicialización/Seed:** La función `init_db()` realiza creación de tablas y seed de datos por defecto al iniciar la app.
+- **API:** Los endpoints están definidos en `app/main.py`.
+- **Validación de Datos:** Pydantic se encarga de la validación y serialización de los datos de entrada y salida.
+- **Base de Datos:** Se utiliza SQLAlchemy como ORM, lo que permite interactuar con diferentes motores de bases de datos como PostgreSQL o SQLite con solo cambiar la URL de conexión, sin necesidad de modificar el código. Los modelos de datos se encuentran en `app/models.py`.
+- **Procesamiento Asíncrono:** Una tarea en segundo plano simple, implementada con el módulo `threading` de Python, gestiona el procesamiento de lotes de documentos.
+- **Inicialización:** Al iniciar, la aplicación puede crear las tablas de la base de datos y poblarlas con datos iniciales.
+
+Trade-offs y Limitaciones
+-------------------------
+- **Worker Asíncrono:** Se utilizó `threading` para el procesamiento en background por su simplicidad. La principal limitación es que no es robusto para un entorno de producción: no hay reintentos automáticos, persistencia de colas (si la API se reinicia, los jobs en memoria se pierden).
+- **Seguridad:** Se implementó un esquema básico de autenticación con `OAuth2PasswordBearer` y tokens (Bearer Token) para proteger los endpoints. Sin embargo, la implementación es simple y no es segura para producción: los usuarios se gestionan en un diccionario en memoria en lugar de una base de datos, y el hashing de contraseñas es simulado. No se implementó un sistema de roles o permisos (autorización).
+- **Manejo de Errores:** El manejo de errores es básico. Una versión de producción debería tener un sistema de logging más estructurado y un manejo de excepciones especifico para diferentes casos (ej. problemas de conexión a la BD, datos inválidos, etc.).
 
 Requisitos
 ---------
@@ -35,12 +40,26 @@ python -m venv .venv
 .venv\Scripts\Activate.ps1
 # Windows cmd
 .venv\Scripts\activate.bat
-# Unix / macOS
-source .venv/bin/activate
 ```
 2. Instalar dependencias:
 ```bash
 pip install -r requirements.txt
+```
+
+3. Ejecutar la aplicación:
+Desde la carpeta `app`, utiliza `uvicorn` para iniciar el servidor:
+```bash
+cd app
+uvicorn main:app --reload
+```
+La API estará disponible en `http://127.0.0.1:8000`.
+
+Ejecución de Pruebas
+--------------------
+Para ejecutar el conjunto de pruebas, asegúrate de tener las dependencias instaladas y luego ejecuta `pytest` desde la carpeta `app`:
+```bash
+cd app
+pytest -q
 ```
 
 Instalación (Docker)
